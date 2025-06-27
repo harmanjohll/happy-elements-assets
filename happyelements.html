@@ -6,7 +6,6 @@
     <title>Happy Family: Periodic Table Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- UPDATE: New Modern Color Palette & Styles --- */
         :root {
             --primary-color: #6a11cb;
             --secondary-color: #2575fc;
@@ -58,16 +57,28 @@
             margin-bottom: 20px;
             color: #666;
         }
-        #name-entry label,
-        #name-entry input,
-        #name-entry select,
-        #name-entry button {
+
+        /* UPDATE: Use Flexbox for alignment and consistent heights */
+        #name-entry, #human-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #name-entry label, #controls label {
+            font-weight: 600;
+        }
+        #name-entry input, #name-entry select, #controls input, #controls select {
             font-size: 1rem;
             margin: 5px;
             padding: 8px 12px;
             border-radius: 8px;
             border: 1px solid #ccc;
+            height: 42px; /* Consistent height */
         }
+
+        /* UPDATE: Made all buttons bigger, including the Ask button */
         #name-entry button, #controls button {
             background-color: var(--secondary-color);
             color: var(--light-font-color);
@@ -75,11 +86,16 @@
             cursor: pointer;
             font-weight: 600;
             transition: transform 0.2s ease, background-color 0.2s ease;
+            height: 42px; /* Consistent height */
+            padding: 10px 20px; /* More padding */
+            font-size: 1.1rem; /* Bigger font */
+            border-radius: 8px;
         }
         #name-entry button:hover, #controls button:hover {
             background-color: var(--primary-color);
             transform: translateY(-2px);
         }
+
         #table {
             display: flex;
             flex-wrap: wrap;
@@ -163,15 +179,6 @@
             height: 60px;
             border-radius: 4px;
         }
-        #controls label,
-        #controls select,
-        #controls input {
-            font-size: 1rem;
-            margin: 5px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
         #log {
             margin-top: 20px;
             padding: 15px;
@@ -245,7 +252,7 @@
         </div>
         <div id="controls" style="display: none;">
             <div id="human-controls">
-                </div>
+            </div>
         </div>
         <div id="log">
             <p><em>Game log...</em></p>
@@ -253,53 +260,31 @@
     </div>
 
     <script>
-        // --- CONSTANTS AND GLOBAL STATE ---
-
         const baseURL = 'https://raw.githubusercontent.com/harmanjohll/happy-elements-assets/refs/heads/main/images/';
         const fullCardList = [
-            { group: 'Group 1', element: 'Lithium', img: baseURL + 'Li.png' },
-            { group: 'Group 1', element: 'Sodium', img: baseURL + 'Na.png' },
-            { group: 'Group 1', element: 'Potassium', img: baseURL + 'K.png' },
-            { group: 'Group 1', element: 'Rubidium', img: baseURL + 'Rb.png' },
-            { group: 'Group 2', element: 'Beryllium', img: baseURL + 'Be.png' },
-            { group: 'Group 2', element: 'Magnesium', img: baseURL + 'Mg.png' },
-            { group: 'Group 2', element: 'Calcium', img: baseURL + 'Ca.png' },
-            { group: 'Group 2', element: 'Strontium', img: baseURL + 'Sr.png' },
-            { group: 'Group 13', element: 'Boron', img: baseURL + 'B.png' },
-            { group: 'Group 13', element: 'Aluminium', img: baseURL + 'Al.png' },
-            { group: 'Group 13', element: 'Gallium', img: baseURL + 'Ga.png' },
-            { group: 'Group 13', element: 'Indium', img: baseURL + 'In.png' },
-            { group: 'Group 14', element: 'Carbon', img: baseURL + 'C.png' },
-            { group: 'Group 14', element: 'Silicon', img: baseURL + 'Si.png' },
-            { group: 'Group 14', element: 'Germanium', img: baseURL + 'Ge.png' },
-            { group: 'Group 14', element: 'Tin', img: baseURL + 'Sn.png' },
-            { group: 'Group 15', element: 'Nitrogen', img: baseURL + 'N.PNG' },
-            { group: 'Group 15', element: 'Phosphorus', img: baseURL + 'P.PNG' },
-            { group: 'Group 15', element: 'Arsenic', img: baseURL + 'As.PNG' },
-            { group: 'Group 15', element: 'Antimony', img: baseURL + 'Sb.PNG' },
-            { group: 'Group 16', element: 'Oxygen', img: baseURL + 'O.PNG' },
-            { group: 'Group 16', element: 'Sulfur', img: baseURL + 'S.PNG' },
-            { group: 'Group 16', element: 'Selenium', img: baseURL + 'Se.PNG' },
-            { group: 'Group 16', element: 'Tellurium', img: baseURL + 'Te.PNG' },
-            { group: 'Group 17', element: 'Fluorine', img: baseURL + 'F.PNG' },
-            { group: 'Group 17', element: 'Chlorine', img: baseURL + 'Cl.PNG' },
-            { group: 'Group 17', element: 'Bromine', img: baseURL + 'Br.PNG' },
-            { group: 'Group 17', element: 'Iodine', img: baseURL + 'I.PNG' },
-            { group: 'Group 18', element: 'Neon', img: baseURL + 'Ne.PNG' },
-            { group: 'Group 18', element: 'Argon', img: baseURL + 'Ar.PNG' },
-            { group: 'Group 18', element: 'Krypton', img: baseURL + 'Kr.PNG' },
-            { group: 'Group 18', element: 'Xenon', img: baseURL + 'Xe.PNG' }
+            { group: 'Group 1', element: 'Lithium', img: baseURL + 'Li.png' }, { group: 'Group 1', element: 'Sodium', img: baseURL + 'Na.png' },
+            { group: 'Group 1', element: 'Potassium', img: baseURL + 'K.png' }, { group: 'Group 1', element: 'Rubidium', img: baseURL + 'Rb.png' },
+            { group: 'Group 2', element: 'Beryllium', img: baseURL + 'Be.png' }, { group: 'Group 2', element: 'Magnesium', img: baseURL + 'Mg.png' },
+            { group: 'Group 2', element: 'Calcium', img: baseURL + 'Ca.png' }, { group: 'Group 2', element: 'Strontium', img: baseURL + 'Sr.png' },
+            { group: 'Group 13', element: 'Boron', img: baseURL + 'B.png' }, { group: 'Group 13', element: 'Aluminium', img: baseURL + 'Al.png' },
+            { group: 'Group 13', element: 'Gallium', img: baseURL + 'Ga.png' }, { group: 'Group 13', element: 'Indium', img: baseURL + 'In.png' },
+            { group: 'Group 14', element: 'Carbon', img: baseURL + 'C.png' }, { group: 'Group 14', element: 'Silicon', img: baseURL + 'Si.png' },
+            { group: 'Group 14', element: 'Germanium', img: baseURL + 'Ge.png' }, { group: 'Group 14', element: 'Tin', img: baseURL + 'Sn.png' },
+            { group: 'Group 15', element: 'Nitrogen', img: baseURL + 'N.PNG' }, { group: 'Group 15', element: 'Phosphorus', img: baseURL + 'P.PNG' },
+            { group: 'Group 15', element: 'Arsenic', img: baseURL + 'As.PNG' }, { group: 'Group 15', element: 'Antimony', img: baseURL + 'Sb.PNG' },
+            { group: 'Group 16', element: 'Oxygen', img: baseURL + 'O.PNG' }, { group: 'Group 16', element: 'Sulfur', img: baseURL + 'S.PNG' },
+            { group: 'Group 16', element: 'Selenium', img: baseURL + 'Se.PNG' }, { group: 'Group 16', element: 'Tellurium', img: baseURL + 'Te.PNG' },
+            { group: 'Group 17', element: 'Fluorine', img: baseURL + 'F.PNG' }, { group: 'Group 17', element: 'Chlorine', img: baseURL + 'Cl.PNG' },
+            { group: 'Group 17', element: 'Bromine', img: baseURL + 'Br.PNG' }, { group: 'Group 17', element: 'Iodine', img: baseURL + 'I.PNG' },
+            { group: 'Group 18', element: 'Neon', img: baseURL + 'Ne.PNG' }, { group: 'Group 18', element: 'Argon', img: baseURL + 'Ar.PNG' },
+            { group: 'Group 18', element: 'Krypton', img: baseURL + 'Kr.PNG' }, { group: 'Group 18', element: 'Xenon', img: baseURL + 'Xe.PNG' }
         ];
-
         const groupRepresentativeImages = {
             'Group 1': baseURL + 'Li.png', 'Group 2': baseURL + 'Be.png', 'Group 13': baseURL + 'B.png', 'Group 14': baseURL + 'C.png',
             'Group 15': baseURL + 'N.PNG', 'Group 16': baseURL + 'O.PNG', 'Group 17': baseURL + 'F.PNG', 'Group 18': baseURL + 'Ne.PNG'
         };
-
         const elementToGroup = {};
-        fullCardList.forEach(card => {
-            elementToGroup[card.element.toLowerCase()] = card.group.replace("Group ", "");
-        });
+        fullCardList.forEach(card => { elementToGroup[card.element.toLowerCase()] = card.group.replace("Group ", ""); });
 
         let players = [], deck = [], currentPlayerIndex = 0, difficultyLevel = "beginner", gameInProgress = false;
 
@@ -340,7 +325,6 @@
                 cardDiv.innerHTML = `<img src="${card.img}" alt="${card.element}">`;
                 hand0.appendChild(cardDiv);
             });
-
             for (let i = 1; i < players.length; i++) {
                 const handDiv = document.getElementById(`hand-${i}`);
                 handDiv.innerHTML = '';
@@ -368,7 +352,7 @@
         function updateControls() {
             document.querySelectorAll('.player-seat').forEach(seat => seat.classList.remove('active'));
             document.getElementById(`player-${currentPlayerIndex}`).classList.add('active');
-            humanControlsDiv.style.display = (currentPlayerIndex === 0 && gameInProgress) ? 'block' : 'none';
+            humanControlsDiv.style.display = (currentPlayerIndex === 0 && gameInProgress) ? 'flex' : 'none';
             if (currentPlayerIndex === 0 && gameInProgress) updateHumanControls();
         }
 
@@ -388,25 +372,18 @@
                 
                 const cardChoiceDropdown = document.getElementById('card-choice');
                 let options;
-
-                // --- UPDATE: New sorting logic for dropdowns ---
                 if (difficultyLevel === 'beginner') {
-                    // Order by group (default order of fullCardList)
                     options = fullCardList.map(card => card.element);
-                } else { // 'intermediate'
-                    // Order alphabetically
+                } else {
                     options = fullCardList.map(card => card.element).sort();
                 }
-                
                 cardChoiceDropdown.innerHTML = '';
                 options.forEach(el => {
                     let option = document.createElement('option');
-                    option.value = el;
-                    option.text = el;
+                    option.value = el; option.text = el;
                     cardChoiceDropdown.appendChild(option);
                 });
             }
-
             const targetPlayerDropdown = document.getElementById('target-player');
             targetPlayerDropdown.innerHTML = '';
             for (let i = 1; i < players.length; i++) {
@@ -426,7 +403,7 @@
 
             players[0].name = playerNameInput.value.trim() !== "" ? playerNameInput.value.trim() : "You";
             document.getElementById('name-0').textContent = players[0].name;
-            let girlNames = ["Alice", "Beth", "Cathy", "Diana"], boyNames = ["Charlie", "David", "Edward", "Frank"];
+            let girlNames = ["Alice", "Beth", "Cathy"], boyNames = ["Charlie", "David", "Edward"];
             shuffleArray(girlNames); shuffleArray(boyNames);
             players[1].name = girlNames[0]; players[2].name = boyNames[0]; players[3].name = girlNames[1];
             document.getElementById('name-1').textContent = players[1].name;
@@ -435,24 +412,25 @@
 
             deck = [...fullCardList];
             shuffleArray(deck);
-            const initialHandSize = 7;
-            for (let i = 0; i < players.length; i++) {
-                for (let j = 0; j < initialHandSize; j++) {
-                    if (deck.length > 0) players[i].hand.push(deck.pop());
+            
+            // UPDATE: Deal all 32 cards, 8 to each player. The deck will be empty.
+            while (deck.length > 0) {
+                for (let i = 0; i < players.length && deck.length > 0; i++) {
+                    players[i].hand.push(deck.pop());
                 }
             }
             
             currentPlayerIndex = 0;
             logDiv.innerHTML = '';
-            logMessage(`Game started. Welcome, ${getPlayerName(0)}!`);
+            logMessage(`Game started. All 32 cards dealt. Welcome, ${getPlayerName(0)}!`);
             players.forEach(player => checkForFamily(player));
             startTurn();
         }
 
         function startTurn() {
             if (!gameInProgress) return;
-            if(players[currentPlayerIndex].hand.length === 0 && deck.length === 0) {
-                logMessage(`${getPlayerName(currentPlayerIndex)} has no cards and the deck is empty. Skipping turn.`);
+            if(players[currentPlayerIndex].hand.length === 0) {
+                logMessage(`${getPlayerName(currentPlayerIndex)} has no more cards. Skipping turn.`);
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
                 setTimeout(startTurn, 1500);
                 return;
@@ -471,7 +449,7 @@
                 const elementInput = document.getElementById('element-input').value.trim();
                 const groupInput = document.getElementById('group-input').value.trim();
                 if (!elementToGroup[elementInput.toLowerCase()] || elementToGroup[elementInput.toLowerCase()] !== groupInput) {
-                    logMessage("Invalid request. Please check the element name and group number."); return;
+                    logMessage("Invalid request. Check element name and group number."); return;
                 }
                 processAsk(0, targetIndex, elementInput);
             } else {
@@ -493,21 +471,9 @@
                 if (checkGameEnd()) return;
                 setTimeout(startTurn, 1000);
             } else {
+                // UPDATE: No deck to draw from. Turn simply passes.
                 logMessage(`${getPlayerName(targetIndex)} says, 'Not at home!'`);
-                if (deck.length > 0) {
-                    const drawnCard = deck.pop();
-                    requester.hand.push(drawnCard);
-                    logMessage(`${getPlayerName(requesterIndex)} draws a card from the deck.`);
-                    if (drawnCard.element === elementName) {
-                        logMessage(`Lucky draw! It was the ${elementName}! <b>${getPlayerName(requesterIndex)} gets another turn.</b>`);
-                        checkForFamily(requester);
-                        if (checkGameEnd()) return;
-                        setTimeout(startTurn, 1000); return;
-                    }
-                } else {
-                    logMessage("The deck is empty.");
-                }
-                checkForFamily(requester);
+                checkForFamily(requester); // Check in case a family was made some other way
                 if (checkGameEnd()) return;
                 currentPlayerIndex = targetIndex;
                 setTimeout(startTurn, 1000);
