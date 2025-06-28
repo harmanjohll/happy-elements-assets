@@ -16,10 +16,7 @@
             --shadow-color: rgba(0, 0, 0, 0.1);
             --active-glow: rgba(37, 117, 252, 0.7);
         }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
         html, body {
             margin: 0;
             padding: 0;
@@ -52,13 +49,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        header p {
-            font-size: 1rem;
-            margin-bottom: 20px;
-            color: #666;
-        }
-
-        /* UPDATE: Use Flexbox for alignment and consistent heights */
+        header p { font-size: 1rem; margin-bottom: 20px; color: #666; }
         #name-entry, #human-controls {
             display: flex;
             justify-content: center;
@@ -66,19 +57,15 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        #name-entry label, #controls label {
-            font-weight: 600;
-        }
+        #name-entry label, #controls label { font-weight: 600; }
         #name-entry input, #name-entry select, #controls input, #controls select {
             font-size: 1rem;
             margin: 5px;
             padding: 8px 12px;
             border-radius: 8px;
             border: 1px solid #ccc;
-            height: 42px; /* Consistent height */
+            height: 42px;
         }
-
-        /* UPDATE: Made all buttons bigger, including the Ask button */
         #name-entry button, #controls button {
             background-color: var(--secondary-color);
             color: var(--light-font-color);
@@ -86,16 +73,15 @@
             cursor: pointer;
             font-weight: 600;
             transition: transform 0.2s ease, background-color 0.2s ease;
-            height: 42px; /* Consistent height */
-            padding: 10px 20px; /* More padding */
-            font-size: 1.1rem; /* Bigger font */
+            height: 42px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
             border-radius: 8px;
         }
         #name-entry button:hover, #controls button:hover {
             background-color: var(--primary-color);
             transform: translateY(-2px);
         }
-
         #table {
             display: flex;
             flex-wrap: wrap;
@@ -123,12 +109,17 @@
             flex: 1 1 100%;
             max-width: 100%;
             background-color: var(--background-color);
+            order: 2;
         }
-        .player-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+        .computer-players-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            order: 1;
         }
+        .player-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
         .hand {
             width: 100%;
             background: #f0f2f5;
@@ -140,74 +131,45 @@
             min-height: 60px;
             margin-bottom: 5px;
         }
-        #player-0 .hand .card {
-            width: 80px;
-            height: 120px;
-            margin: 5px;
+        #player-0 .hand .card { width: 80px; height: 120px; margin: 5px; transition: transform 0.2s ease; }
+        #player-0 .hand .card:hover { transform: scale(1.05); }
+        
+        .hand.computer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 28px; 
+        }
+        .hand .card { width: 40px; height: 60px; margin: 2px; }
+        .hand.computer .card {
+            /* --- UPDATE: Reduced overlap from -28px to -20px --- */
+            margin-left: -20px; 
+            border: 1px solid #fff;
             transition: transform 0.2s ease;
         }
-        #player-0 .hand .card:hover {
-            transform: scale(1.05);
+        .hand.computer .card:first-child {
+            margin-left: 0;
         }
-        .hand.computer {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, 44px);
-            gap: 4px;
-            justify-items: center;
+        .hand.computer .card:hover {
+            transform: translateY(-10px);
+            z-index: 10;
         }
-        .hand .card {
-            width: 40px;
-            height: 60px;
-            margin: 2px;
-        }
-        .hand .card img {
-            width: 100%;
-            height: 100%;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-        .completed-families {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 4px;
-            min-height: 64px;
-        }
-        .completed-families img {
-            width: 40px;
-            height: 60px;
-            border-radius: 4px;
-        }
+
+        .hand .card img { width: 100%; height: 100%; border-radius: 6px; box-shadow: 0 2px 4px var(--shadow-color); }
+        .completed-families { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; min-height: 64px; }
+        .completed-families img { width: 40px; height: 60px; border-radius: 4px; }
         #log {
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--background-color);
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            height: 150px;
-            overflow-y: auto;
-            text-align: left;
+            margin-top: 20px; padding: 15px; background: var(--background-color); border: 1px solid #e0e0e0;
+            border-radius: 8px; font-size: 0.9rem; height: 150px; overflow-y: auto; text-align: left;
         }
-        #log p {
-            margin: 0 0 8px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        #log p:last-child {
-            border-bottom: none;
-        }
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.75rem;
-            }
-        }
-        @media (max-width: 480px) {
-            #player-0 .hand .card {
-                width: 60px;
-                height: 90px;
-            }
+        #log p { margin: 0 0 8px 0; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0; }
+        #log p:last-child { border-bottom: none; }
+        
+        @media (max-width: 600px) {
+            .game-container { min-height: auto; }
+            header h1 { font-size: 1.5rem; }
+            .player-seat { flex-basis: 45%; max-width: 45%; }
+            #player-0 .hand .card { width: 60px; height: 90px; }
         }
     </style>
 </head>
@@ -215,7 +177,7 @@
     <div class="game-container">
         <header>
             <h1>Happy Family: Periodic Table Edition</h1>
-            <p>Collect all the elements of the same group to form a family!</p>
+            <p>Collect all 4 elements of the same group to form a family!</p>
         </header>
         <div id="name-entry">
             <label for="player-name-input">Your Name:</label>
@@ -229,34 +191,15 @@
             <button id="start-game-button">Start Game</button>
         </div>
         <div id="table" style="display: none;">
-            <div id="player-1" class="player-seat">
-                <div class="player-name" id="name-1">Computer 1</div>
-                <div class="completed-families" id="completed-1"></div>
-                <div class="hand computer" id="hand-1"></div>
-            </div>
-            <div id="player-2" class="player-seat">
-                <div class="player-name" id="name-2">Computer 2</div>
-                <div class="completed-families" id="completed-2"></div>
-                <div class="hand computer" id="hand-2"></div>
-            </div>
-            <div id="player-3" class="player-seat">
-                <div class="player-name" id="name-3">Computer 3</div>
-                <div class="completed-families" id="completed-3"></div>
-                <div class="hand computer" id="hand-3"></div>
-            </div>
-            <div id="player-0" class="player-seat">
-                <div class="player-name" id="name-0">You</div>
-                <div class="completed-families" id="completed-0"></div>
-                <div class="hand" id="hand-0">Your cards will appear here.</div>
-            </div>
+             <div class="computer-players-container">
+                <div id="player-1" class="player-seat"><div class="player-name" id="name-1"></div><div class="completed-families" id="completed-1"></div><div class="hand computer" id="hand-1"></div></div>
+                <div id="player-2" class="player-seat"><div class="player-name" id="name-2"></div><div class="completed-families" id="completed-2"></div><div class="hand computer" id="hand-2"></div></div>
+                <div id="player-3" class="player-seat"><div class="player-name" id="name-3"></div><div class="completed-families" id="completed-3"></div><div class="hand computer" id="hand-3"></div></div>
+             </div>
+            <div id="player-0" class="player-seat"><div class="player-name" id="name-0">You</div><div class="completed-families" id="completed-0"></div><div class="hand" id="hand-0"></div></div>
         </div>
-        <div id="controls" style="display: none;">
-            <div id="human-controls">
-            </div>
-        </div>
-        <div id="log">
-            <p><em>Game log...</em></p>
-        </div>
+        <div id="controls" style="display: none;"><div id="human-controls"></div></div>
+        <div id="log"><p><em>Game log...</em></p></div>
     </div>
 
     <script>
@@ -285,15 +228,10 @@
         };
         const elementToGroup = {};
         fullCardList.forEach(card => { elementToGroup[card.element.toLowerCase()] = card.group.replace("Group ", ""); });
-
         let players = [], deck = [], currentPlayerIndex = 0, difficultyLevel = "beginner", gameInProgress = false;
-
-        const nameEntryDiv = document.getElementById('name-entry');
-        const tableDiv = document.getElementById('table');
-        const controlsDiv = document.getElementById('controls');
-        const logDiv = document.getElementById('log');
-        const humanControlsDiv = document.getElementById('human-controls');
-        const playerNameInput = document.getElementById('player-name-input');
+        const nameEntryDiv = document.getElementById('name-entry'), tableDiv = document.getElementById('table'),
+              controlsDiv = document.getElementById('controls'), logDiv = document.getElementById('log'),
+              humanControlsDiv = document.getElementById('human-controls'), playerNameInput = document.getElementById('player-name-input');
 
         function logMessage(message) {
             const p = document.createElement('p');
@@ -322,7 +260,7 @@
             players[0].hand.forEach(card => {
                 const cardDiv = document.createElement('div');
                 cardDiv.className = 'card';
-                cardDiv.innerHTML = `<img src="${card.img}" alt="${card.element}">`;
+                cardDiv.innerHTML = `<img src="${card.img}" alt="${card.element}" title="${card.element}">`;
                 hand0.appendChild(cardDiv);
             });
             for (let i = 1; i < players.length; i++) {
@@ -334,7 +272,6 @@
                     cardDiv.innerHTML = `<img src="${baseURL}back-of-card.png" alt="card back">`;
                     handDiv.appendChild(cardDiv);
                 });
-                handDiv.innerHTML += `<div style="font-size:14px; margin-top:4px;">(${players[i].hand.length} cards)</div>`;
             }
         }
 
@@ -344,14 +281,14 @@
                 compDiv.innerHTML = '';
                 players[i].completedFamilies.forEach(group => {
                     const imgSrc = groupRepresentativeImages[group];
-                    if (imgSrc) compDiv.innerHTML += `<img src="${imgSrc}" alt="${group}">`;
+                    if (imgSrc) compDiv.innerHTML += `<img src="${imgSrc}" alt="${group}" title="${group}">`;
                 });
             }
         }
 
         function updateControls() {
             document.querySelectorAll('.player-seat').forEach(seat => seat.classList.remove('active'));
-            document.getElementById(`player-${currentPlayerIndex}`).classList.add('active');
+            if (gameInProgress) document.getElementById(`player-${currentPlayerIndex}`).classList.add('active');
             humanControlsDiv.style.display = (currentPlayerIndex === 0 && gameInProgress) ? 'flex' : 'none';
             if (currentPlayerIndex === 0 && gameInProgress) updateHumanControls();
         }
@@ -359,24 +296,17 @@
         function updateHumanControls() {
             difficultyLevel = document.getElementById('difficulty').value;
             if (difficultyLevel === "advanced") {
-                humanControlsDiv.innerHTML = `
-                    <label for="target-player">Ask:</label> <select id="target-player"></select>
-                    <label for="element-input">for element:</label> <input type="text" id="element-input" placeholder="Enter element">
-                    <label for="group-input">from Group:</label> <input type="text" id="group-input" placeholder="Enter group number">
-                    <button id="ask-button">Ask</button>`;
+                humanControlsDiv.innerHTML = `<label for="target-player">Ask:</label> <select id="target-player"></select>
+                                               <label for="element-input">for element:</label> <input type="text" id="element-input" placeholder="Enter element">
+                                               <label for="group-input">from Group:</label> <input type="text" id="group-input" placeholder="Enter group number">
+                                               <button id="ask-button">Ask</button>`;
             } else {
-                humanControlsDiv.innerHTML = `
-                    <label for="target-player">Ask:</label> <select id="target-player"></select>
-                    <label for="card-choice">for:</label> <select id="card-choice"></select>
-                    <button id="ask-button">Ask</button>`;
-                
+                humanControlsDiv.innerHTML = `<label for="target-player">Ask:</label> <select id="target-player"></select>
+                                               <label for="card-choice">for:</label> <select id="card-choice"></select>
+                                               <button id="ask-button">Ask</button>`;
                 const cardChoiceDropdown = document.getElementById('card-choice');
-                let options;
-                if (difficultyLevel === 'beginner') {
-                    options = fullCardList.map(card => card.element);
-                } else {
-                    options = fullCardList.map(card => card.element).sort();
-                }
+                let options = (difficultyLevel === 'beginner') ?
+                    fullCardList.map(card => card.element) : fullCardList.map(card => card.element).sort();
                 cardChoiceDropdown.innerHTML = '';
                 options.forEach(el => {
                     let option = document.createElement('option');
@@ -399,42 +329,43 @@
         function initializeGame() {
             gameInProgress = true;
             players = [];
-            for (let i = 0; i < 4; i++) players.push({ id: i, name: `Player ${i}`, hand: [], completedFamilies: [] });
-
-            players[0].name = playerNameInput.value.trim() !== "" ? playerNameInput.value.trim() : "You";
+            for (let i = 0; i < 4; i++) players.push({ id: i, hand: [], completedFamilies: [] });
+            players[0].name = playerNameInput.value.trim() || "You";
             document.getElementById('name-0').textContent = players[0].name;
-            let girlNames = ["Alice", "Beth", "Cathy"], boyNames = ["Charlie", "David", "Edward"];
-            shuffleArray(girlNames); shuffleArray(boyNames);
-            players[1].name = girlNames[0]; players[2].name = boyNames[0]; players[3].name = girlNames[1];
-            document.getElementById('name-1').textContent = players[1].name;
-            document.getElementById('name-2').textContent = players[2].name;
-            document.getElementById('name-3').textContent = players[3].name;
-
+            let names = ["Alice", "Beth", "Charlie", "David"];
+            shuffleArray(names);
+            for(let i=1; i<4; i++) {
+                players[i].name = names[i-1];
+                document.getElementById(`name-${i}`).textContent = players[i].name;
+            }
             deck = [...fullCardList];
             shuffleArray(deck);
-            
-            // UPDATE: Deal all 32 cards, 8 to each player. The deck will be empty.
             while (deck.length > 0) {
                 for (let i = 0; i < players.length && deck.length > 0; i++) {
                     players[i].hand.push(deck.pop());
                 }
             }
-            
             currentPlayerIndex = 0;
             logDiv.innerHTML = '';
-            logMessage(`Game started. All 32 cards dealt. Welcome, ${getPlayerName(0)}!`);
+            logMessage(`Game started. All 32 cards dealt. Welcome, ${players[0].name}!`);
             players.forEach(player => checkForFamily(player));
-            startTurn();
+            advanceToNextTurn(0);
         }
 
-        function startTurn() {
+        function advanceToNextTurn(nextPlayer) {
             if (!gameInProgress) return;
-            if(players[currentPlayerIndex].hand.length === 0) {
-                logMessage(`${getPlayerName(currentPlayerIndex)} has no more cards. Skipping turn.`);
+            currentPlayerIndex = nextPlayer;
+            let attempts = 0;
+            while(players[currentPlayerIndex].hand.length === 0 && attempts < players.length) {
+                logMessage(`${getPlayerName(currentPlayerIndex)} has no cards. Skipping turn.`);
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-                setTimeout(startTurn, 1500);
-                return;
+                attempts++;
             }
+            if (attempts >= players.length) { checkGameEnd(); return; }
+            startTurn();
+        }
+        
+        function startTurn() {
             logMessage(`It's <b>${getPlayerName(currentPlayerIndex)}'s</b> turn.`);
             updatePlayerDisplays();
             updateControls();
@@ -461,7 +392,6 @@
             const requester = players[requesterIndex], target = players[targetIndex];
             logMessage(`${getPlayerName(requesterIndex)} asks ${getPlayerName(targetIndex)} for ${elementName}.`);
             const cardPos = target.hand.findIndex(card => card.element === elementName);
-
             if (cardPos !== -1) {
                 const card = target.hand.splice(cardPos, 1)[0];
                 requester.hand.push(card);
@@ -469,14 +399,12 @@
                 logMessage(`<b>${getPlayerName(requesterIndex)} gets to go again.</b>`);
                 checkForFamily(requester);
                 if (checkGameEnd()) return;
-                setTimeout(startTurn, 1000);
+                setTimeout(() => advanceToNextTurn(requesterIndex), 1000);
             } else {
-                // UPDATE: No deck to draw from. Turn simply passes.
                 logMessage(`${getPlayerName(targetIndex)} says, 'Not at home!'`);
-                checkForFamily(requester); // Check in case a family was made some other way
                 if (checkGameEnd()) return;
-                currentPlayerIndex = targetIndex;
-                setTimeout(startTurn, 1000);
+                const nextPlayerInSequence = (requesterIndex + 1) % players.length;
+                setTimeout(() => advanceToNextTurn(nextPlayerInSequence), 1000);
             }
         }
 
@@ -496,19 +424,14 @@
             }
             if (targetGroup === '') {
                 const availableGroups = Object.keys(groupsInHand).filter(g => groupsInHand[g].length < 4);
-                if (availableGroups.length === 0) {
-                    logMessage(`${getPlayerName(currentPlayerIndex)} passes the turn.`);
-                    currentPlayerIndex = (currentPlayerIndex + 1) % players.length; startTurn(); return;
-                }
+                if (availableGroups.length === 0) { advanceToNextTurn((currentPlayerIndex + 1) % players.length); return; }
                 targetGroup = availableGroups[Math.floor(Math.random() * availableGroups.length)];
             }
             const ownedElements = new Set(groupsInHand[targetGroup]);
             const missingElements = fullCardList.filter(card => card.group === targetGroup).map(c => c.element).filter(el => !ownedElements.has(el));
             const cardToAskFor = missingElements[Math.floor(Math.random() * missingElements.length)];
             const possibleTargets = players.filter(p => p.id !== currentPlayerIndex && p.hand.length > 0);
-            if(possibleTargets.length === 0) {
-                logMessage("No one else has cards! Game over."); gameInProgress = false; updateControls(); return;
-            }
+            if(possibleTargets.length === 0) { checkGameEnd(); return; }
             const targetPlayer = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
             processAsk(currentPlayerIndex, targetPlayer.id, cardToAskFor);
         }
@@ -532,10 +455,12 @@
             const totalFamilies = players.reduce((sum, p) => sum + p.completedFamilies.length, 0);
             if (totalFamilies === 8) {
                 gameInProgress = false;
-                let winner = players.reduce((prev, curr) => (prev.completedFamilies.length > curr.completedFamilies.length ? prev : curr));
-                let winnerName = getPlayerName(winner.id);
+                const scores = players.map(p => p.completedFamilies.length);
+                const maxScore = Math.max(...scores);
+                const winners = players.filter(p => p.completedFamilies.length === maxScore);
+                const winnerNames = winners.map(w => getPlayerName(w.id)).join(' and ');
                 logMessage("--- GAME OVER! ---");
-                logMessage(`🏆 <b>${winnerName} wins with ${winner.completedFamilies.length} families!</b>`);
+                logMessage(`🏆 <b>${winnerNames} win${winners.length > 1 ? '' : 's'} with ${maxScore} families!</b>`);
                 updateControls();
                 return true;
             }
@@ -548,7 +473,6 @@
             tableDiv.style.display = 'flex';
             controlsDiv.style.display = 'block';
         });
-
         playerNameInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') document.getElementById('start-game-button').click();
         });
